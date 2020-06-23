@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: node-app-deployment
+  labels:
+    app: nodejs-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nodejs-app
+  template:
+    metadata:
+      name: nodejs-pod
+      labels:
+        app: nodejs-app
+    spec:
+      containers:
+      - name: nodejs-app
+        image: 906338665313.dkr.ecr.us-east-2.amazonaws.com/nodejs-test:latest
+        ports:
+          -  containerPort: 3000
+        resources:
+          limits:
+            cpu: 300m
+          requests:
+            cpu: 150m
+        imagePullPolicy: Always
+      imagePullSecrets:
+      -  name: ecr-registry-key

@@ -1,0 +1,54 @@
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  annotations:
+    autoscaling.alpha.kubernetes.io/conditions: '[{"type":"AbleToScale","status":"True","lastTransitionTime":"2020-06-23T08:07:42Z","reason":"SucceededGetScale","message":"the
+      HPA controller was able to get the target''s current scale"},{"type":"ScalingActive","status":"False","lastTransitionTime":"2020-06-23T08:07:57Z","reason":"FailedGetResourceMetric","message":"the
+      HPA was unable to compute the replica count: missing request for cpu"}]'
+  creationTimestamp: "2020-06-23T08:07:27Z"
+  managedFields:
+  - apiVersion: autoscaling/v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:spec:
+        f:maxReplicas: {}
+        f:minReplicas: {}
+        f:scaleTargetRef:
+          f:apiVersion: {}
+          f:kind: {}
+          f:name: {}
+        f:targetCPUUtilizationPercentage: {}
+    manager: kubectl
+    operation: Update
+    time: "2020-06-23T08:07:27Z"
+  - apiVersion: autoscaling/v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:metadata:
+        f:annotations:
+          .: {}
+          f:autoscaling.alpha.kubernetes.io/conditions: {}
+      f:status:
+        f:currentReplicas: {}
+        f:desiredReplicas: {}
+        f:lastScaleTime: {}
+    manager: kube-controller-manager
+    operation: Update
+    time: "2020-06-23T08:07:57Z"
+  name: node-app-deployment
+  namespace: default
+  resourceVersion: "781387"
+  selfLink: /apis/autoscaling/v1/namespaces/default/horizontalpodautoscalers/node-app-deployment
+  uid: 0189fb78-0228-4640-9cca-c372b640a1c9
+spec:
+  maxReplicas: 10
+  minReplicas: 1
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: node-app-deployment
+  targetCPUUtilizationPercentage: 50
+status:
+  currentReplicas: 10
+  desiredReplicas: 10
+  lastScaleTime: "2020-06-23T08:07:42Z"
