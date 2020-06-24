@@ -3,8 +3,8 @@ kind: HorizontalPodAutoscaler
 metadata: 
   name: node-app-deployment-memory 
 spec:
-  maxReplicas: 5
-  minReplicas: 1
+  maxReplicas: 15
+  minReplicas: 10
   scaleTargetRef:
     apiVersion: extensions/v1beta1
     kind: Deployment
