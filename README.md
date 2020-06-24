@@ -2,7 +2,7 @@
 
 ## About
 
-This document briefly describes how to deploy and scale Nodejs application on Kubernetes running on the AWS cloud.
+This document briefly describes how to deploy and scale Nodejs application on Kubernetes running on the AWS cloud. It also includes, how we can autoscale our applications in Kubernetes to achieve high availability. 
 
 ## Prerequisite
 
