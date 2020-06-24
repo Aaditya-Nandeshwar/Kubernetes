@@ -14,4 +14,4 @@ else
 fi
 >ecr-login.sh
 kubectl delete secret ecr-registry-key >> cron-output.txt
-kubectl create secret generic ecr-registry-key --from-file=.dockerconfigjson=.docker/config.json --type=kubernetes.io/dockerconfigjson >> cron-output.txt
+kubectl create secret generic ecr-registry-key --from-file=.dockerconfigjson=/home/ubuntu/.docker/config.json --type=kubernetes.io/dockerconfigjson >> cron-output.txt
