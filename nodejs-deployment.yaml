@@ -28,7 +28,7 @@ spec:
           limits:
             memory: "400Mi"
           requests:
-            memory: "50Mi" 
+            memory: "40Mi" 
         imagePullPolicy: Always
       imagePullSecrets:
       -  name: ecr-registry-key

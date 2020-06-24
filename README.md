@@ -4,7 +4,7 @@
 
 This document briefly describes how to deploy and scale Nodejs application on Kubernetes running on the AWS cloud.
 
-## prerequisite
+## Prerequisite
 
 1) Create two EC2 Linux instances on AWS with a minimum configuration of 2 vCPU and 4GB of RAM and name them as Master and Node. 
 2) Create one AWS IAM user with necessary permission, note down ACCESS_KEY, and SECRET_KEY of IAM USER. This credentials we will use to log in on AWS.
