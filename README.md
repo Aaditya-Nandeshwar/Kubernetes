@@ -146,6 +146,13 @@ In this command, we are deleting the old secret and storing the output of the co
 The above command is the main command to create a secret by referring **.docker/config.json**. Because each time when you pull the credentials by default its stores in **.docker/config.json** file which is the default config file of docker. 
 
 
+Set the cron job for your **secret-rotaion-cron.sh** file using below cron 
+
+0 */10 * * *      /home/ubuntu/k8s-deployment/secret-rotaion-cron.sh
+
+This cron helps to rotate secret at every 10 hour. 
+
+
 After, Performing these many steps we are ready to deploy our application.  
 
 
