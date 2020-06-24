@@ -164,7 +164,7 @@ Need to expose application on the worker node. for this we have created `nodejs-
 
 In `nodejs-service.yaml` the file we have mention port of the container where the application listing on, Service port which is similar to container port and helps to receive incoming traffic from NodePort and forward towards the container and NodePort which receives the incoming traffic. 
 
-As per the Kubernetes documentation, Kubernetes nodes can serve the applications between port ranges 30000 to 32767. Hence, we have used `30080` port for exposing our application on the worker node.  
+As per the Kubernetes documentation, Kubernetes nodes can serve the applications between port ranges `30000` to `32767`. Hence, we have used `30080` port for exposing our application on the worker node.  
 
 We have also configured an AWS classic load balancer for exposing the application on port 3000 instead of serving from Kubernetes default port range. We have open 3000 ports on the classic load balancer security group. which can be accessed by any location to browse the application. 
 
@@ -241,7 +241,7 @@ Finally, we have to test our autoscaling by referring below Instructions:
 ```
    stress --vm 2 --vm-bytes 200
 ```
-7) Switch to the second we to see autoscaling based on memory utlization at 60%.
+7) Switch to the second termimnal to see autoscaling based on memory utlization at 60%.
 
 
 
