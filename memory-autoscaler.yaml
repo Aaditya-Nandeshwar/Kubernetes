@@ -1,0 +1,16 @@
+apiVersion: autoscaling/v2beta1
+kind: HorizontalPodAutoscaler
+metadata: 
+  name: node-app-deployment-memory 
+spec:
+  maxReplicas: 5
+  minReplicas: 1
+  scaleTargetRef:
+    apiVersion: extensions/v1beta1
+    kind: Deployment
+    name: node-app-deployment
+  metrics:
+  - type: Resource
+    resource:
+      name: memory
+      targetAverageUtilization: 60

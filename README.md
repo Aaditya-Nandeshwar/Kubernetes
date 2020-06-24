@@ -2,11 +2,11 @@
 
 ## About
 
-This document briefly describes how to deploy and scale Nodejs application on Kubernetes, using horizontal pod autoscaler running on the AWS cloud.
+This document briefly describes how to deploy and scale Nodejs application on Kubernetes running on the AWS cloud.
 
 ## prerequisite
 
-1) Create 2 EC2 Linux instances on AWS with a minimum configuration of 2 vCPU and 4GB of RAM and name them as Master and Node. 
+1) Create two EC2 Linux instances on AWS with a minimum configuration of 2 vCPU and 4GB of RAM and name them as Master and Node. 
 2) Create one AWS IAM user with necessary permission, note down ACCESS_KEY, and SECRET_KEY of IAM USER. This credentials we will use to log in on AWS.
       
 3) Create one ECR repository with the name Nodejs-test on AWS.  
@@ -55,6 +55,117 @@ docker tag nodejs-test:latest ACCOUNT_ID.dkr.ecr.us-east-2.amazonaws.com/nodejs-
 Run the following command to push this image to your newly created AWS repository:
 
 docker push ACCOUNT_ID.dkr.ecr.us-east-2.amazonaws.com/nodejs-test:latest
+
+8) The above steps help you to build and push your images on AWS ECR. Each time when you make any new change in the code, first you need to build your image and then push that image to private registry like AWS ECR.
+
+
+## Deployment 
+
+
+This is the most crucial part of this project, here you need to understand and configure so many things to make your deployment successful. 
+
+The first task is how to create pods and deploy applications on pods. 
+
+Here, I have written a nodejs-deployment.yaml which contains lots of fo things in it. Let's understand in depth. 
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: node-app-deployment
+  labels:
+    app: nodejs-app
+
+
+The above section is the general section to create any Kubernetes object. Which contains the version of Kubernetes API for specific object **apps/v1**, object type **Deployment**, and name of the object along with its labels.
+ 
+ labels are generally used to identify the particular object and refer that object in another object creation. 
+
+ spec:
+  replicas: 7
+  selector:
+    matchLabels:
+      app: nodejs-app
+  template:
+    metadata:
+      name: nodejs-pod
+      labels:
+        app: nodejs-app
+    spec:
+      containers:
+      - name: nodejs-app
+        image: 906338665313.dkr.ecr.us-east-2.amazonaws.com/nodejs-test:latest
+        ports:
+          -  containerPort: 3000
+        resources:
+          limits:
+            cpu: 300m
+          requests:
+            cpu: 150m
+          limits:
+            memory: "400Mi"
+          requests:
+            memory: "40Mi"
+        imagePullPolicy: Always
+      imagePullSecrets:
+      -  name: ecr-registry-keycc:paytm-assignment
+
+The spec section is the main section of the Deployment object. Which contains more information than above. 
+
+1) **replicas**: This is to ensure the desired no. of pods available in the cluster after deployment. 
+   
+2) **selector**: It is used to select appropriate pod for deployment by referring the labels. 
+   
+3) **template**: This helps to create pods and containers inside it by referring to various parameters and requirements. 
+   
+This contains the name of the pods, name of the container, name of the image, name of the secret to pulling images from a private registry, the port where the application listens, and resources section to allocate memory and CPU from the host machine.   
+
+I am assuming that you are aware of some of these like pods, containers, ports, and images. Let me explain to you others which is not commonly used i.e resources and secrets. 
+
+**resources**: As I mentioned above this section used to allocate system resources to Kubernetes pods. Here I am allocating CPU and Memory. The reason behind to allocate these resources to pods is to autoscale the application pods based on CPU and Memory utilization. I have mentioned in the above limits=300m and requests=150m. This means I am allocating 0.3 Millicore CPU from my worker node. So pods can't consume more than this limit. And I am requesting 0.15 Millicore CPU to run my application from this allocated limit.  
+
+The same thing applies to memory also. But here unit will change as **Mebibyte** and allocating Limits for the memory from system and request the memory used by all running pods in the deployment.
+
+**imagePullSecrets**: This term contains the secret which can be used to pull image from private docker registry like AWS ECR in our case. Secret are generally containing the information of your credentials. We used a secret to store our private registry name, username, and password for login. 
+
+If you use the default private docker registry (docker hub) then it will be easy to manage secrets. But this is not the case with the AWS ECR registry. Because AWS ECR will change its credentials in every 12 hours. Means your secret will expire after 12 hours. And you can't be used that secret anymore. To resolve this issue, I have created one shell script which can be used to rotate your secret before it expires. Please refer to the following details:
+
+**secret-rotation-cron.sh**: This file contains a small shell script, which helps to pull the latest credentials from the ECR registry, delete the old secret, and create the new one. 
+
+Let me explain few lines,
+
+**aws ecr get-login >>  /home/ubuntu/ecr-login.sh**
+
+In this command, we are pulling the latest credentials from the AWS ECR registry and storing it in another **ecr-login.sh** file. This **ecr-login.sh**  used to store and rotate these credentials.
+
+**kubectl delete secret ecr-registry-key >> cron-output.txt**
+
+In this command, we are deleting the old secret and storing the output of the command in **cron-output.txt**. Using this we can make sure our old secret has been successfully deleted. 
+
+**kubectl create secret generic ecr-registry-key --from-file=.dockerconfigjson=.docker/config.json --type=kubernetes.io/dockerconfigjson >> cron-output.txt**
+
+The above command is the main command to create a secret by referring **.docker/config.json**. Because each time when you pull the credentials by default its stores in **.docker/config.json** file which is the default config file of docker. 
+
+
+After, Performing these many steps we are ready to deploy our application.  
+
+
+**kuebectl create -f nodejs-deployment.yaml 
+**
+
+This command will create the deployment on our Kubernetes cluster. 
+
+Need to expose application on the worker node. for this we have created **nodejs-service.yaml**  file which can help to expose application on node port. 
+
+In **nodejs-service.yaml** the file we have mention port of the container where the application listing on, Service port which is similar to container port and helps to receive incoming traffic from NodePort and forward towards the container and NodePort which receives the incoming traffic. 
+
+As per the Kubernetes documentation, Kubernetes nodes can serve the applications between port ranges 30000 to 32767. Hence, we have used **30080** port for exposing our application on the worker node.  
+
+We have also configured an AWS classic load balancer for exposing the application on port 3000 instead of serving from Kubernetes default port range. We have open 3000 ports on the classic load balancer security group. which can be accessed by any location to browse the application. 
+
+
+
+
+
 
 
 
