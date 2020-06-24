@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: nodejs-app
-        image: 906338665313.dkr.ecr.us-east-2.amazonaws.com/nodejs-test:latest
+        image: $ACCOUNT_ID.dkr.ecr.$REGION.amazonaws.com/nodejs-test:latest
         ports:
           -  containerPort: 3000
         resources:
