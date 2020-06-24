@@ -22,13 +22,11 @@ spec:
           -  containerPort: 3000
         resources:
           limits:
-            cpu: 300m
+            cpu: "300m"
+            memory: "500Mi"
           requests:
-            cpu: 150m
-          limits:
-            memory: "400Mi"
-          requests:
-            memory: "40Mi" 
+            cpu: "150m"
+            memory: "50Mi" 
         imagePullPolicy: Always
       imagePullSecrets:
       -  name: ecr-registry-key
