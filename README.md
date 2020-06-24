@@ -241,7 +241,7 @@ Finally, we have to test our autoscaling by referring below Instructions:
 ```
    stress --vm 2 --vm-bytes 200
 ```
-7) Switch to the second termimnal to see autoscaling based on memory utlization at 60%.
+7) Switch to the second terminal to see autoscaling based on memory utlization at 60%.
 
 
 
