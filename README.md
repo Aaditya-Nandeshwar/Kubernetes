@@ -93,7 +93,7 @@ The above section is the general section to create any Kubernetes object. Which 
     spec:
       containers:
       - name: nodejs-app
-        image: ACCOUNT_ID.dkr.ecr.us-east-2.amazonaws.com/nodejs-test:latest
+        image: $ACCOUNT_ID.dkr.ecr.$REGION.amazonaws.com/nodejs-test:latest
         ports:
           -  containerPort: 3000
         resources:
