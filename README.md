@@ -98,13 +98,11 @@ The above section is the general section to create any Kubernetes object. Which 
           -  containerPort: 3000
         resources:
           limits:
-            cpu: 300m
+            cpu: "300m"
+            memory: "600Mi"
           requests:
-            cpu: 150m
-          limits:
-            memory: "400Mi"
-          requests:
-            memory: "40Mi"
+            cpu: "150m"
+            memory: "60Mi"
         imagePullPolicy: Always
       imagePullSecrets:
       -  name: ecr-registry-keycc:paytm-assignment
