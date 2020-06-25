@@ -37,12 +37,12 @@ git clone https://github.com/Aaditya7789/k8s-deployment.git
     
 6) For login use, the same AWS ACCESS_KEY & SECRET_KEY generated at the time of user creation. 
    
-7) Once you logged in to build the docker image and push it to AWS ECR private registry using following commands:
+7) Once you logged into AWS, build the docker image and push it to AWS ECR private registry using following commands:
 
 Retrieve an authentication token and authenticate your Docker client to your registry.
 Use the AWS CLI:
 ```
-aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin ACCOUNT_ID.dkr.ecr.us-east-2.amazonaws.com
+aws ecr get-login-password --region $REGION | docker login --username AWS --password-stdin ACCOUNT_ID.dkr.ecr.$REGION.amazonaws.com
 ```
 Build your Docker image using the following command. You can skip this step if your image is already built:
 ```
@@ -50,11 +50,11 @@ docker build -t nodejs-test .
 ```
 After the build completes, tag your image so you can push the image to this repository:
 ```
-docker tag nodejs-test:latest ACCOUNT_ID.dkr.ecr.us-east-2.amazonaws.com/nodejs-test:latest
+docker tag nodejs-test:latest ACCOUNT_ID.dkr.ecr.$REGION.amazonaws.com/nodejs-test:latest
 ```
 Run the following command to push this image to your newly created AWS repository:
 ```
-docker push ACCOUNT_ID.dkr.ecr.us-east-2.amazonaws.com/nodejs-test:latest
+docker push ACCOUNT_ID.dkr.ecr.$REGION.amazonaws.com/nodejs-test:latest
 ```
 8) The above steps help you to build and push your images on AWS ECR. Each time when you make any new change in the code, first you need to build your image and then push that image to private registry like AWS ECR.
 
