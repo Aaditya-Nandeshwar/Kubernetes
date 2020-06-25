@@ -35,7 +35,7 @@ metadata:
     manager: kube-controller-manager
     operation: Update
     time: "2020-06-23T08:07:57Z"
-  name: node-app-deployment
+  name: node-app-deployment-cpu
   namespace: default
   resourceVersion: "781387"
   selfLink: /apis/autoscaling/v1/namespaces/default/horizontalpodautoscalers/node-app-deployment
