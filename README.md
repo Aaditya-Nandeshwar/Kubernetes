@@ -104,7 +104,7 @@ The above section is the general section to create any Kubernetes object. It con
             memory: "60Mi"
         imagePullPolicy: Always
       imagePullSecrets:
-      -  name: ecr-registry-keycc:paytm-assignment
+      -  name: ecr-registry-key
 ```
 The spec section is the main section of the Deployment object. Which contains more information than above. 
 
