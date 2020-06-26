@@ -56,17 +56,16 @@ Run the following command to push this image to your newly created AWS repositor
 ```
 docker push ACCOUNT_ID.dkr.ecr.$REGION.amazonaws.com/nodejs-test:latest
 ```
-8) The above steps help you to build and push your images on AWS ECR. Each time when you make any new change in the code, first you need to build your image and then push that image to a private registry like AWS ECR.
+8) The above steps help you to build and push your images on AWS ECR. Each time when you make any new changes in the code, first you need to build your image and then push that image to a private registry like docker or AWS ECR.
 
 
 ## Deployment 
 
+This is the most complex and confusing part of this project, In this, you need to understand and configure multiple things to make your deployment successful. 
 
-This is the most crucial part of this project, here you need to understand and configure so many things to make your deployment successful. 
+The first task is how to create the pods and deploy applications on pods. 
 
-The first task is how to create pods and deploy applications on pods. 
-
-Here, I have written a nodejs-deployment.yaml which contains lots of fo things in it. Let's understand in depth. 
+I have written one small `nodejs-deployment.yaml` file, which contains the required information in it, to deploy the application on pods. 
 ```yaml
 apiVersion: apps/v1
 kind: Deployment
@@ -76,9 +75,9 @@ metadata:
     app: nodejs-app
 ```
 
-The above section is the general section to create any Kubernetes object. It contains the version of Kubernetes API for specific object `apps/v1`, object type `Deployment`, and name of the object along with its labels.
+The above section is the general section to create any Kubernetes object. It contains the API version of the Kubernetes object, object type, and name of the object along with its labels. In this deployment definition file, the API version is `apps/v1`, object type `Deployment` and the name of the object is `node-app-deployment`.  
  
- labels are generally used to identify the particular object and refer that object in another object creation. 
+ labels are generally used to identify the particular object and referring that object in another object creation. 
 ```yaml
  spec:
   replicas: 7
