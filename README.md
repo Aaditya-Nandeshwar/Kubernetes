@@ -7,9 +7,9 @@ This document briefly describes how to deploy and scale Nodejs application on Ku
 ## Prerequisite
 
 1) Create two EC2 Linux instances on AWS with a minimum configuration of 2 vCPU and 4GB of RAM and name them as Master and Node. 
-2) Create one AWS IAM user with necessary permission, note down ACCESS_KEY, and SECRET_KEY of IAM USER. This credentials we will use to log in on AWS.
+2) Create one AWS IAM user with necessary permission, note down `ACCESS_KEY`, and `SECRET_KEY` of IAM USER. This credentials we will use to log in on AWS.
       
-3) Create one ECR repository with the name Nodejs-test on AWS.  
+3) Create one ECR repository with the name `Nodejs-test` on AWS.  
     
 4) Setup a Kubernetes cluster on AWS using the kubeadmin tool. Please refer the following link for reference:
    https://www.edureka.co/blog/install-kubernetes-on-ubuntu
@@ -35,7 +35,7 @@ git clone https://github.com/Aaditya7789/k8s-deployment.git
    
    https://aws.amazon.com/cli/
     
-6) For login use, the same AWS ACCESS_KEY & SECRET_KEY generated at the time of user creation. 
+6) For login use, the same AWS `ACCESS_KEY` & `SECRET_KEY` generated at the time of user creation. 
    
 7) Once you logged into AWS, build the docker image and push it to AWS ECR private registry using following commands:
 
