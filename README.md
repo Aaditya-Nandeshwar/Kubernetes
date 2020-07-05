@@ -35,7 +35,7 @@ git clone https://github.com/Aaditya7789/k8s-deployment.git
    
    https://aws.amazon.com/cli/
     
-6) For login use, the same AWS `ACCESS_KEY` & `SECRET_KEY` generated at the time of user creation. 
+6) For login, use the same AWS `ACCESS_KEY` & `SECRET_KEY` generated at the time of user creation. 
    
 7) Once you logged into AWS, build the docker image and push it to AWS ECR private registry using following commands:
 
